@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { defineComponent } from 'vue';
+import AboutMe from '../components/AboutMe.vue';
+
+export default defineComponent({
+  name: 'AboutPage',
+  components: { AboutMe },
+});
+---
+
+<Layout>
+  <AboutMe />
+</Layout>

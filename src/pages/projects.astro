@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { defineComponent } from 'vue';
+import ProjectsView from '../components/ProjectsView.vue';
+
+export default defineComponent({
+  name: 'ProjectsPage',
+  components: { ProjectsView },
+});
+---
+
+<Layout>
+  <ProjectsView />
+</Layout>
