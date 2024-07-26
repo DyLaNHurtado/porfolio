@@ -1,14 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { defineComponent } from 'vue';
-import ProjectsView from '../components/ProjectsView.vue';
-
-export default defineComponent({
-  name: 'ProjectsPage',
-  components: { ProjectsView },
-});
+import ProjectsPage from '../components/ProjectsPage.vue';
 ---
 
-<Layout>
-  <ProjectsView />
+<Layout title="Proyectos - Dylan Hurtado López">
+  <ProjectsPage client:load />
 </Layout>

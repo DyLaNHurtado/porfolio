@@ -1,14 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { defineComponent } from 'vue';
-import BlogView from '../components/BlogView.vue';
-
-export default defineComponent({
-  name: 'BlogPage',
-  components: { BlogView },
-});
+import BlogPage from '../components/BlogPage.vue';
 ---
 
-<Layout>
-  <BlogView />
+<Layout title="Blog - Dylan Hurtado López">
+  <BlogPage client:load />
 </Layout>

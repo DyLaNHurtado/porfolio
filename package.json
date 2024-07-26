@@ -10,11 +10,14 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.12.2"
+    "@astrojs/vue": "^4.5.0",
+    "@heroicons/vue": "^2.1.5",
+    "astro": "^4.12.2",
+    "vue": "^3.4.34"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.39",
-    "tailwindcss": "^3.4.6"
+    "postcss": "^8.4.40",
+    "tailwindcss": "^3.4.7"
   }
 }

@@ -1,14 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { defineComponent } from 'vue';
-import ContactView from '../components/ContactView.vue';
-
-export default defineComponent({
-  name: 'ContactPage',
-  components: { ContactView },
-});
+import ContactPage from '../components/ContactPage.vue';
 ---
 
-<Layout>
-  <ContactView />
+<Layout title="Contacto - Dylan Hurtado López">
+  <ContactPage client:load />
 </Layout>

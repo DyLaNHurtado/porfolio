@@ -1,14 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { defineComponent } from 'vue';
-import AboutMe from '../components/AboutMe.vue';
-
-export default defineComponent({
-  name: 'AboutPage',
-  components: { AboutMe },
-});
+import AboutPage from '../components/AboutPage.vue';
 ---
 
-<Layout>
-  <AboutMe />
+<Layout title="Sobre Mí - Dylan Hurtado López">
+  <AboutPage client:load />
 </Layout>
