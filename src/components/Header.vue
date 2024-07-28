@@ -3,7 +3,7 @@
     id="header-nav"
     class="text-gray-300 z-40 py-4 fixed w-full top-0 left-0 transition-transform duration-300 ease-in-out shadow-sm"
   >
-    <nav class="nav-main container mx-auto flex justify-between items-center px-4 lg:max-w-xl rounded-full backdrop-blur-sm bg-opacity-80 bg-gray-800">
+    <nav class="nav-main container mx-auto flex justify-between items-center px-4 lg:max-w-xl rounded-full backdrop-blur-sm bg-opacity-80 bg-gray-500">
       <a href="/" :class="['nav-link flex items-center space-x-1 p-3', isActive('/') ? 'active-link' : '']">
         <HomeIcon class="h-5 w-5 icon" />
         <span>Home</span>

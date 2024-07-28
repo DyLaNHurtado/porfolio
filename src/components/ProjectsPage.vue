@@ -1,16 +1,16 @@
 <template>
     <div>
-      <ProjectsView />
+      <Projects />
     </div>
   </template>
   
   <script>
   import { defineComponent } from 'vue';
-  import ProjectsView from '../components/ProjectsView.vue';
+  import Projects from '../components/Projects.vue';
   
   export default defineComponent({
     name: 'ProjectsPage',
-    components: { ProjectsView },
+    components: { Projects },
   });
   </script>
   
