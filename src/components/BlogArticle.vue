@@ -1,7 +1,7 @@
 <template>
-    <div class="blog-article p-6 rounded-lg shadow-md flex flex-col gap-4 border-2 border-gray-400 border-opacity-10">
+    <div class="blog-article p-6 rounded-lg shadow-md flex flex-col gap-4 border-2 border-gray-400 border-opacity-10 w-5/6 ">
       <h1 class="text-xl text-start font-bold text-white">{{ title }}</h1>
-      <img :src="imageUrl" alt="Article Image" class="w-full h-96 object-cover rounded-md">
+      <img :src="imageUrl" alt="Article Image" class="h-80 object-cover rounded-md">
       <div class="flex flex-col gap-2">
         <h4 class="text-md font-semibold text-gray-200 text-ellipsis text-nowrap text-start" >{{ subtitle }}</h4>
         <footer class="flex flex-row align-center justify-start flex-wrap gap-2">

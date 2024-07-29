@@ -59,7 +59,8 @@ export default defineComponent({
   },
   methods: {
     getTechClass(techName) {
-      return techConfig[techName]?.color || 'border-gray-700';
+      const color = techConfig[techName]?.color;
+      return ` border-${color} bg-${color} bg-opacity-20` || ' border-gray-700 ';
     },
   },
 });

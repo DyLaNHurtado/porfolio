@@ -15,6 +15,5 @@
   </script>
   
   <style>
-  /* Estilos opcionales */
   </style>
   

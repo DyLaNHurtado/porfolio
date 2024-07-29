@@ -1,9 +1,11 @@
 <template>
   <section class="section scroll-m-20 w-full mx-auto container lg:max-w-4xl md:max-w-2xl py-10">
     <div v-if="articles.length === 0" class="text-center text-gray-600 dark:text-gray-400">No posts available</div>
-    <div v-else class="container mx-auto grid grid-cols-1 gap-8">
-      <h2 class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon" class="h-8 w-8 icon" data-v-c970699f=""><path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.25a.75.75 0 0 0 1 .707A8.237 8.237 0 0 1 6 18.75c1.995 0 3.823.707 5.25 1.886V4.533ZM12.75 20.636A8.214 8.214 0 0 1 18 18.75c.966 0 1.89.166 2.75.47a.75.75 0 0 0 1-.708V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533v16.103Z"></path></svg>
+    <div v-else class="container mx-auto grid grid-cols-1 place-items-center gap-8">
+      <h2 class="flex items-center w-full mb-6 text-3xl text-start font-semibold gap-x-3 text-black/80 dark:text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-8 w-8">
+          <path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.25a.75.75 0 0 0 1 .707A8.237 8.237 0 0 1 6 18.75c1.995 0 3.823.707 5.25 1.886V4.533ZM12.75 20.636A8.214 8.214 0 0 1 18 18.75c.966 0 1.89.166 2.75.47a.75.75 0 0 0 1-.708V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533v16.103Z"></path>
+        </svg>
         Artículos del blog
       </h2>
       <div class="chips flex flex-row flex-wrap items-center justify-start gap-3">
@@ -12,11 +14,13 @@
           v-for="tag in allTags" 
           @click="clickTag(tag)" 
           :key="tag" 
-          :class="getTagClass(tag) + ' flex gap-x-2 rounded-full text-xs border-2 py-1 px-2 text-white cursor-pointer transition-transform transform hover:scale-105'"
+          :class="getTagClass(tag) + ' flex gap-x-2 rounded-full text-md border-2 py-1 px-2 cursor-pointer transition-transform transform hover:scale-105'"
         >
           {{ tag }}
         </span>
       </div>
+
+      Articulos Totales : {{ articles.length }}
       <BlogArticle
         v-for="article in filteredArticles"
         :key="article.id"
@@ -29,12 +33,14 @@
       />
     </div>
     <div v-if="articles.length > 0" class="flex justify-center items-center mt-8 gap-3">
-      <button 
-        @click="prevPage" 
-        :disabled="currentPage === 1" 
-        class="px-4 py-2 bg-gray-800 text-white rounded-lg"
-        v-if="currentPage > 1"
-      >Anterior</button>
+      <transition name="fade" mode="out-in">
+        <button 
+          @click="prevPage" 
+          :disabled="currentPage === 1" 
+          class="px-4 py-2 bg-gray-800 text-white rounded-lg"
+          :class="{ invisible: currentPage === 1 }"
+        ><</button>
+      </transition>
       <div class="flex items-center justify-center gap-3">
         <button 
           v-for="page in totalPages" 
@@ -45,27 +51,29 @@
           {{ page }}
         </button>
       </div>
-      <button 
-        @click="nextPage" 
-        :disabled="currentPage === totalPages" 
-        class="px-4 py-2 bg-gray-800 text-white rounded-lg"
-        v-if="currentPage < totalPages"
-      >Siguiente</button>
+      <transition name="fade" mode="out-in">
+        <button 
+          @click="nextPage" 
+          :disabled="currentPage === totalPages" 
+          class="px-4 py-2 bg-gray-800 text-white rounded-lg"
+          :class="{ invisible: currentPage >= totalPages }"
+        >></button>
+      </transition>
     </div>
   </section>
 </template>
-  
-  <script>
-  import BlogArticle from './BlogArticle.vue';
-  
-  export default {
-    name: 'PaginatedArticles',
-    components: {
-      BlogArticle,
-    },
-    data() {
-      return {
-        articles: [
+
+<script>
+import BlogArticle from './BlogArticle.vue';
+
+export default {
+  name: 'PaginatedArticles',
+  components: {
+    BlogArticle,
+  },
+  data() {
+    return {
+      articles: [
           {
             id: 1,
             title: 'Introduction to Vue.js',
@@ -247,10 +255,10 @@
             tags: ['Vue', 'Best Practices', 'JavaScript'],
           },
         ],
-        currentPage: 1,
+      currentPage: 1,
       articlesPerPage: 10,
       tagsSelected: [],
-      tagColors: {}
+      tagColors: {},
     };
   },
   computed: {
@@ -280,16 +288,16 @@
   methods: {
     getRandomColor() {
       const colors  = ['red', 'green', 'orange', 'yellow', 'violet', 'blue', 'lime', 'emerald', 'teal', 'sky', 'purple', 'fuchsia', 'pink'];
-      const numbers = ['100', '200', '300', '400', '500', '600', '700', '800', '900'];
+      const numbers = ['400', '500', '600', '700', '800', '900'];
       const colorIndex = Math.floor(Math.random() * colors.length);
       const numberIndex = Math.floor(Math.random() * numbers.length);
-      return `border-${colors[colorIndex]}-${numbers[numberIndex]}`;
+      return `${colors[colorIndex]}-${numbers[numberIndex]}`;
     },
     getTagClass(tag) {
-      if (!this.tagColors[tag]) {
+      if (this.tagColors[tag]==null || this.tagColors[tag].length === 0) {
         this.tagColors[tag] = this.getRandomColor();
       }
-      return `${this.tagColors[tag]} ${this.tagsSelected.includes(tag) ? 'bg-white text-black' : ''}`;
+      return ` border-${this.tagColors[tag]} ${this.tagsSelected.includes(tag) ? ` bg-${this.tagColors[tag]} text-bold ` : ''}`;
     },
     clickTag(tag) {
       if (this.tagsSelected.includes(tag)) {
@@ -314,7 +322,7 @@
   },
   mounted() {
     this.allTags.forEach(tag => {
-      this.tagColors.tag =this.getRandomColor();
+      this.tagColors.tag = this.getRandomColor();
     });
   }
 };
@@ -326,7 +334,16 @@
   color: #FFF;
 }
 .button-inactive {
-  background-color: #E5E7EB;
+  background-color: #3f3f3f;
   color: #1F2937;
+}
+.invisible {
+  visibility: hidden;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

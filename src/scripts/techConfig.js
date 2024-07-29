@@ -1,150 +1,150 @@
 export const techConfig = {
     Angular: {
-      color: 'border-red-500',
+      color: 'red-500',
     },
     'Node.js': {
-      color: 'border-green-500',
+      color: 'green-500',
     },
     React: {
-      color: 'border-blue-500',
+      color: 'blue-500',
     },
     Firebase: {
-      color: 'border-yellow-500',
+      color: 'yellow-500',
     },
     'Vue.js': {
-      color: 'border-green-400',
+      color: 'green-400',
     },
     GraphQL: {
-      color: 'border-pink-500',
+      color: 'pink-500',
     },
     HTML: {
-      color: 'border-orange-500',
+      color: 'orange-500',
     },
     CSS: {
-      color: 'border-blue-600',
+      color: 'blue-600',
     },
     JavaScript: {
-      color: 'border-yellow-400',
+      color: 'yellow-400',
     },
     TypeScript: {
-      color: 'border-blue-400',
+      color: 'blue-400',
     },
     Docker: {
-      color: 'border-blue-500',
+      color: 'blue-500',
     },
     Kubernetes: {
-      color: 'border-blue-700',
+      color: 'blue-700',
     },
     AWS: {
-      color: 'border-yellow-500',
+      color: 'yellow-500',
     },
     'Amazon Web Services': {
-      color: 'border-yellow-500',
+      color: 'yellow-500',
     },
     'Azure': {
-      color: 'border-blue-700',
+      color: 'blue-700',
     },
     'Google Cloud': {
-      color: 'border-blue-500',
+      color: 'blue-500',
     },
     'SASS': {
-      color: 'border-pink-400',
+      color: 'pink-400',
     },
     'LESS': {
-      color: 'border-blue-600',
+      color: 'blue-600',
     },
     'Bootstrap': {
-      color: 'border-purple-600',
+      color: 'purple-600',
     },
     'Tailwind CSS': {
-      color: 'border-teal-400',
+      color: 'teal-400',
     },
     'Next.js': {
-      color: 'border-black',
+      color: 'black',
     },
     'Nuxt.js': {
-      color: 'border-green-600',
+      color: 'green-600',
     },
     'Jest': {
-      color: 'border-green-500',
+      color: 'green-500',
     },
     'Mocha': {
-      color: 'border-brown-500',
+      color: 'brown-500',
     },
     'Chai': {
-      color: 'border-red-600',
+      color: 'red-600',
     },
     'Cypress': {
-      color: 'border-green-600',
+      color: 'green-600',
     },
     'Webpack': {
-      color: 'border-blue-600',
+      color: 'blue-600',
     },
     'Babel': {
-      color: 'border-yellow-600',
+      color: 'yellow-600',
     },
     'Git': {
-      color: 'border-orange-600',
+      color: 'orange-600',
     },
     'GitHub': {
-      color: 'border-black',
+      color: 'black',
     },
     'GitLab': {
-      color: 'border-orange-500',
+      color: 'orange-500',
     },
     'Bitbucket': {
-      color: 'border-blue-600',
+      color: 'blue-600',
     },
     'MySQL': {
-      color: 'border-blue-600',
+      color: 'blue-600',
     },
     'PostgreSQL': {
-      color: 'border-blue-800',
+      color: 'blue-800',
     },
     'MongoDB': {
-      color: 'border-green-500',
+      color: 'green-500',
     },
     'SQLite': {
-      color: 'border-blue-400',
+      color: 'blue-400',
     },
     'Redis': {
-      color: 'border-red-600',
+      color: 'red-600',
     },
     'GraphQL': {
-      color: 'border-pink-500',
+      color: 'pink-500',
     },
     'Apollo': {
-      color: 'border-blue-600',
+      color: 'blue-600',
     },
     'Prisma': {
-      color: 'border-blue-500',
+      color: 'blue-500',
     },
     'Sequelize': {
-      color: 'border-blue-400',
+      color: 'blue-400',
     },
     'Express.js': {
-      color: 'border-black',
+      color: 'black',
     },
     'NestJS': {
-      color: 'border-red-500',
+      color: 'red-500',
     },
     'Spring Boot': {
-      color: 'border-green-500',
+      color: 'green-500',
     },
     'Django': {
-      color: 'border-green-600',
+      color: 'green-600',
     },
     'Flask': {
-      color: 'border-black',
+      color: 'black',
     },
     'Ruby on Rails': {
-      color: 'border-red-600',
+      color: 'red-600',
     },
     'Laravel': {
-      color: 'border-red-500',
+      color: 'red-500',
     },
     'ASP.NET': {
-      color: 'border-blue-700',
+      color: 'blue-700',
     },
   };
   
