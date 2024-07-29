@@ -1,6 +1,11 @@
 <template>
   <section class="section scroll-m-20 w-full mx-auto container lg:max-w-4xl md:max-w-2xl py-10">
-    <div v-if="articles.length === 0" class="text-center text-gray-600 dark:text-gray-400">No posts available</div>
+    <div v-if="loading" class="flex justify-center items-center h-64">
+      <!-- <Spinner /> -->
+    </div>
+    <div v-else-if="articles.length === 0" class="text-center text-gray-600 dark:text-gray-400">
+      No posts available
+    </div>
     <div v-else class="container mx-auto grid grid-cols-1 place-items-center gap-8">
       <h2 class="flex items-center w-full mb-6 text-3xl text-start font-semibold gap-x-3 text-black/80 dark:text-white">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-8 w-8">
@@ -8,21 +13,31 @@
         </svg>
         Artículos del blog
       </h2>
-      <div class="chips flex flex-row flex-wrap items-center justify-start gap-3">
-        <h3>Filtra por tags:</h3>
+      <div class="chips flex flex-row flex-wrap items-center justify-start gap-3 mb-6">
+        <h3 class="text-lg font-medium">Filtra por tags:</h3>
         <span 
           v-for="tag in allTags" 
           @click="clickTag(tag)" 
           :key="tag" 
-          :class="getTagClass(tag) + ' flex gap-x-2 rounded-full text-md border-2 py-1 px-2 cursor-pointer transition-transform transform hover:scale-105'"
+          :class="getTagClass(tag) + ' flex gap-x-2 rounded-full text-sm border-2 py-1 px-2 cursor-pointer transition-transform transform hover:scale-105'"
         >
           {{ tag }}
         </span>
       </div>
+      <div class="my-4 w-full">
+        <input 
+          type="text" 
+          v-model="searchQuery" 
+          class="w-full p-2 border rounded dark:bg-gray-700 dark:text-white" 
+          placeholder="Buscar artículos..."
+        />
+      </div>
 
-      Articulos Totales : {{ articles.length }}
+      <div class="w-full text-right text-sm text-gray-600 dark:text-gray-400 mb-4">
+        Artículos Totales: {{ filteredArticles.length }}
+      </div>
       <BlogArticle
-        v-for="article in filteredArticles"
+        v-for="article in paginatedArticles"
         :key="article.id"
         :title="article.title"
         :subtitle="article.subtitle"
@@ -37,8 +52,8 @@
         <button 
           @click="prevPage" 
           :disabled="currentPage === 1" 
-          class="px-4 py-2 bg-gray-800 text-white rounded-lg"
-          :class="{ invisible: currentPage === 1 }"
+          class="px-4 py-2 bg-gray-800 text-white rounded-lg transition-opacity duration-300"
+          :class="{ 'opacity-50 cursor-not-allowed': currentPage === 1 }"
         ><</button>
       </transition>
       <div class="flex items-center justify-center gap-3">
@@ -46,7 +61,7 @@
           v-for="page in totalPages" 
           :key="page" 
           @click="goToPage(page)" 
-          :class="['px-4 py-2 rounded-lg', page === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700']"
+          :class="['px-4 py-2 rounded-lg transition-colors duration-300', page === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-200']"
         >
           {{ page }}
         </button>
@@ -55,8 +70,8 @@
         <button 
           @click="nextPage" 
           :disabled="currentPage === totalPages" 
-          class="px-4 py-2 bg-gray-800 text-white rounded-lg"
-          :class="{ invisible: currentPage >= totalPages }"
+          class="px-4 py-2 bg-gray-800 text-white rounded-lg transition-opacity duration-300"
+          :class="{ 'opacity-50 cursor-not-allowed': currentPage >= totalPages }"
         >></button>
       </transition>
     </div>
@@ -65,11 +80,13 @@
 
 <script>
 import BlogArticle from './BlogArticle.vue';
+// import Spinner from './Spinner.vue';
 
 export default {
   name: 'PaginatedArticles',
   components: {
     BlogArticle,
+    // Spinner,
   },
   data() {
     return {
@@ -259,30 +276,42 @@ export default {
       articlesPerPage: 10,
       tagsSelected: [],
       tagColors: {},
+      searchQuery: '',
+      loading: false, // Loading state
     };
   },
   computed: {
     allTags() {
       let allTags = [];
-      if (this.articles != null && this.articles.length > 0) {
+      if (this.articles.length > 0) {
         this.articles.forEach(article => {
-          allTags = allTags.concat(article?.tags);
+          allTags = allTags.concat(article.tags);
         });
       }
       return [...new Set(allTags)];
     },
     totalPages() {
-      return Math.ceil(this.articles.length / this.articlesPerPage);
+      return Math.ceil(this.filteredArticles.length / this.articlesPerPage);
     },
     filteredArticles() {
-      const filtered = this.tagsSelected.length === 0
-        ? this.articles
-        : this.articles.filter(article =>
-            article.tags.some(tag => this.tagsSelected.includes(tag))
-          );
+      let filtered = this.articles;
+      if (this.tagsSelected.length > 0) {
+        filtered = filtered.filter(article =>
+          article.tags.some(tag => this.tagsSelected.includes(tag))
+        );
+      }
+      if (this.searchQuery) {
+        filtered = filtered.filter(article =>
+          article.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          article.subtitle.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+      }
+      return filtered;
+    },
+    paginatedArticles() {
       const start = (this.currentPage - 1) * this.articlesPerPage;
       const end = start + this.articlesPerPage;
-      return filtered.slice(start, end);
+      return this.filteredArticles.slice(start, end);
     }
   },
   methods: {
@@ -294,7 +323,7 @@ export default {
       return `${colors[colorIndex]}-${numbers[numberIndex]}`;
     },
     getTagClass(tag) {
-      if (this.tagColors[tag]==null || this.tagColors[tag].length === 0) {
+      if (!this.tagColors[tag]) {
         this.tagColors[tag] = this.getRandomColor();
       }
       return ` border-${this.tagColors[tag]} ${this.tagsSelected.includes(tag) ? ` bg-${this.tagColors[tag]} text-bold ` : ''}`;
@@ -318,11 +347,24 @@ export default {
     },
     goToPage(page) {
       this.currentPage = page;
+    },
+    async fetchArticles() {
+      try {
+        // Simulate API call
+        this.articles = await new Promise(resolve => setTimeout(() => resolve([
+          // Add your articles here
+        ]), 1000));
+      } catch (error) {
+        console.error('Error fetching articles:', error);
+      } finally {
+        this.loading = false;
+      }
     }
   },
   mounted() {
+    // this.fetchArticles();
     this.allTags.forEach(tag => {
-      this.tagColors.tag = this.getRandomColor();
+      this.tagColors[tag] = this.getRandomColor();
     });
   }
 };
