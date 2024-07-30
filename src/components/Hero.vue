@@ -7,7 +7,7 @@
       <p class="text-gray-400 m-2 ">
         <br/>
         +{{ new Date().getFullYear() - 2022 }} años de experiencia de desarrollo web y diseños de interfaces únicas. <br/>
-        Apasionado de la tecnologia, la musica y el diseño de arte.<br/>
+        Apasionado de la tecnologia, la musica y el arte.<br/>
         Ubicado en la ciudad de Leganés, Madrid (España) <br/>
       </p>
 

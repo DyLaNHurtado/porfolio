@@ -1,9 +1,9 @@
 <template>
-    <div class="blog-article p-6 rounded-lg shadow-md flex flex-col gap-4 border-2 border-gray-400 border-opacity-10 w-5/6 ">
+    <div class="blog-article p-6 rounded-lg shadow-md flex flex-col gap-4 border-2  w-full md:w-4/5 lg:w-3/4 border-gray-400 border-opacity-10 ">
       <h1 class="text-xl text-start font-bold text-white">{{ title }}</h1>
       <img :src="imageUrl" alt="Article Image" class="h-80 object-cover rounded-md">
       <div class="flex flex-col gap-2">
-        <h4 class="text-md font-semibold text-gray-200 text-ellipsis text-nowrap text-start" >{{ subtitle }}</h4>
+        <h4 class="text-md font-semibold text-gray-200 text-ellipsis text-nowrap text-start" >{{ description }}</h4>
         <footer class="flex flex-row align-center justify-start flex-wrap gap-2">
           <div v-if="author" class="flex items-center text-sm text-gray-400 gap-1">
             <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -37,7 +37,7 @@
         type: String,
         required: true,
       },
-      subtitle: {
+      description: {
         type: String,
         required: true,
       },

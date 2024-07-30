@@ -4,7 +4,7 @@
     <section class="intro py-12">
       <div class="container mx-auto text-center gap-8 flex flex-col items-center justify-center">
         <Experience />
-        <Projects />
+        <ProjectsPreview />
         <PaginatedArticles />
       </div>
     </section>
@@ -15,11 +15,11 @@
 import { defineComponent } from 'vue';
 import Hero from '../components/Hero.vue';
 import Experience from '../components/Experience.vue';
-import Projects from '../components/Projects.vue';
+import ProjectsPreview from '../components/ProjectsPreview.vue';
 import PaginatedArticles from '../components/PaginatedArticles.vue';
 
 export default defineComponent({
   name: 'HomePage',
-  components: { Hero, Experience, Projects, PaginatedArticles },
+  components: { Hero, Experience, ProjectsPreview, PaginatedArticles },
 });
 </script>

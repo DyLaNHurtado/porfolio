@@ -1,24 +1,24 @@
 <template>
   <article class="flex flex-col space-x-0 space-y-8 group md:flex-row md:space-x-8 md:space-y-0">
     <div class="w-full md:w-1/2">
-      <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl" :class="getTechClass(project.technologies[0].name)">
-        <img :src="project.image" :alt="project.title" class="object-cover object-top w-full h-56 transition duration-500 sm:h-full md:scale-110 md:group-hover:scale-105" loading="lazy">
+      <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl">
+        <img :src="project?.imageUrl" :alt="project?.title" class="object-cover object-top w-full h-56 transition duration-500 sm:h-full md:scale-110 md:group-hover:scale-105" loading="lazy">
       </div>
     </div>
     <div class="w-full md:w-1/2 md:max-w-lg">
-      <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ project.title }}</h3>
+      <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ project?.title }}</h3>
       <div class="flex flex-wrap mt-2">
         <ul class="flex flex-row mb-2 gap-x-2">
-          <li v-for="tech in project.technologies" :key="tech.name">
-            <span :class="getTechClass(tech.name) + ' flex gap-x-2 rounded-full text-xs py-1 px-2 text-white border-2'">
-              {{ tech.name }}
+          <li v-for="tag in project?.tags" :key="tag">
+            <span :class="getTechClass(tag) + ' flex gap-x-2 rounded-full text-xs py-1 px-2 text-white border-2'">
+              {{ tag }}
             </span>
           </li>
         </ul>
       </div>
-      <div class="mt-2 text-gray-700 dark:text-gray-400">{{ project.description }}</div>
+      <div class="mt-2 text-gray-700 dark:text-gray-400">{{ project?.description }}</div>
       <footer class="flex items-end justify-start mt-4 gap-x-4">
-        <a :href="project.codeLink" role="link" class="inline-flex items-center justify-center gap-2 px-3 py-2 space-x-2 text-base text-white transition bg-black border border-gray-600 focus-visible:ring-yellow-500/80 text-md hover:bg-gray-900 group max-w-fit rounded-xl hover:text-white focus:outline-none focus-visible:outline-none focus-visible:ring focus-visible:ring-white focus-visible:ring-offset-2 active:bg-gray-800">
+        <a :href="project?.codeLink" role="link" class="inline-flex items-center justify-center gap-2 px-3 py-2 space-x-2 text-base text-white transition bg-black border border-gray-600 focus-visible:ring-yellow-500/80 text-md hover:bg-gray-900 group max-w-fit rounded-xl hover:text-white focus:outline-none focus-visible:outline-none focus-visible:ring focus-visible:ring-white focus-visible:ring-offset-2 active:bg-gray-800">
           <svg
     viewBox="0 0 256 250"
     width="24"
@@ -32,7 +32,7 @@
 </svg>
           Code
         </a>
-        <a :href="project.previewLink" role="link" class="inline-flex items-center justify-center gap-2 px-3 py-2 space-x-2 text-base text-white transition bg-blue-500 border border-gray-600 focus-visible:ring-yellow-500/80 text-md hover:bg-blue-600 group max-w-fit rounded-xl hover:text-white focus:outline-none focus-visible:outline-none focus-visible:ring focus-visible:ring-white focus-visible:ring-offset-2 active:bg-blue-400">
+        <a :href="project?.previewLink" role="link" class="inline-flex items-center justify-center gap-2 px-3 py-2 space-x-2 text-base text-white transition bg-blue-500 border border-gray-600 focus-visible:ring-yellow-500/80 text-md hover:bg-blue-600 group max-w-fit rounded-xl hover:text-white focus:outline-none focus-visible:outline-none focus-visible:ring focus-visible:ring-white focus-visible:ring-offset-2 active:bg-blue-400">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
   <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -40,6 +40,13 @@
 
           Preview
         </a>
+
+        <a :href="project?.previewLink" role="link" class="inline-flex items-center justify-center gap-2 px-3 py-2 space-x-2 text-base text-white transition bg-stone-500 border border-gray-600 focus-visible:ring-yellow-500/80 text-md hover:bg-stone-600 group max-w-fit rounded-xl hover:text-white focus:outline-none focus-visible:outline-none focus-visible:ring focus-visible:ring-white focus-visible:ring-offset-2 focus:bg-stone-900">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon" class="h-5 w-5 icon" data-v-c970699f=""><path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.25a.75.75 0 0 0 1 .707A8.237 8.237 0 0 1 6 18.75c1.995 0 3.823.707 5.25 1.886V4.533ZM12.75 20.636A8.214 8.214 0 0 1 18 18.75c.966 0 1.89.166 2.75.47a.75.75 0 0 0 1-.708V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533v16.103Z"></path></svg>
+
+          Docs
+        </a>
+        
       </footer>
     </div>
   </article>

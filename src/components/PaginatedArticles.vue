@@ -1,100 +1,27 @@
 <template>
-  <section class="section scroll-m-20 w-full mx-auto container lg:max-w-4xl md:max-w-2xl py-10">
-    <div v-if="loading" class="flex justify-center items-center h-64">
-      <!-- <Spinner /> -->
-    </div>
-    <div v-else-if="articles.length === 0" class="text-center text-gray-600 dark:text-gray-400">
-      No posts available
-    </div>
-    <div v-else class="container mx-auto grid grid-cols-1 place-items-center gap-8">
-      <h2 class="flex items-center w-full mb-6 text-3xl text-start font-semibold gap-x-3 text-black/80 dark:text-white">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-8 w-8">
-          <path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.25a.75.75 0 0 0 1 .707A8.237 8.237 0 0 1 6 18.75c1.995 0 3.823.707 5.25 1.886V4.533ZM12.75 20.636A8.214 8.214 0 0 1 18 18.75c.966 0 1.89.166 2.75.47a.75.75 0 0 0 1-.708V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533v16.103Z"></path>
-        </svg>
-        Artículos del blog
-      </h2>
-      <div class="chips flex flex-row flex-wrap items-center justify-start gap-3 mb-6">
-        <h3 class="text-lg font-medium">Filtra por tags:</h3>
-        <span 
-          v-for="tag in allTags" 
-          @click="clickTag(tag)" 
-          :key="tag" 
-          :class="getTagClass(tag) + ' flex gap-x-2 rounded-full text-sm border-2 py-1 px-2 cursor-pointer transition-transform transform hover:scale-105'"
-        >
-          {{ tag }}
-        </span>
-      </div>
-      <div class="my-4 w-full">
-        <input 
-          type="text" 
-          v-model="searchQuery" 
-          class="w-full p-2 border rounded dark:bg-gray-700 dark:text-white" 
-          placeholder="Buscar artículos..."
-        />
-      </div>
-
-      <div class="w-full text-right text-sm text-gray-600 dark:text-gray-400 mb-4">
-        Artículos Totales: {{ filteredArticles.length }}
-      </div>
-      <BlogArticle
-        v-for="article in paginatedArticles"
-        :key="article.id"
-        :title="article.title"
-        :subtitle="article.subtitle"
-        :date="article.date"
-        :imageUrl="article.imageUrl"
-        :author="article.author"
-        :tags="article.tags"
-      />
-    </div>
-    <div v-if="articles.length > 0" class="flex justify-center items-center mt-8 gap-3">
-      <transition name="fade" mode="out-in">
-        <button 
-          @click="prevPage" 
-          :disabled="currentPage === 1" 
-          class="px-4 py-2 bg-gray-800 text-white rounded-lg transition-opacity duration-300"
-          :class="{ 'opacity-50 cursor-not-allowed': currentPage === 1 }"
-        ><</button>
-      </transition>
-      <div class="flex items-center justify-center gap-3">
-        <button 
-          v-for="page in totalPages" 
-          :key="page" 
-          @click="goToPage(page)" 
-          :class="['px-4 py-2 rounded-lg transition-colors duration-300', page === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-200']"
-        >
-          {{ page }}
-        </button>
-      </div>
-      <transition name="fade" mode="out-in">
-        <button 
-          @click="nextPage" 
-          :disabled="currentPage === totalPages" 
-          class="px-4 py-2 bg-gray-800 text-white rounded-lg transition-opacity duration-300"
-          :class="{ 'opacity-50 cursor-not-allowed': currentPage >= totalPages }"
-        >></button>
-      </transition>
-    </div>
-  </section>
+  <PaginatedContent
+    title="Articulos del blog"
+    :items="blogArticles"
+    itemComponent="BlogArticle"
+  />
 </template>
 
 <script>
-import BlogArticle from './BlogArticle.vue';
-// import Spinner from './Spinner.vue';
+import PaginatedContent from '@/components/PaginatedContent.vue';
+import BlogArticle from '@/components/BlogArticle.vue';
 
 export default {
-  name: 'PaginatedArticles',
   components: {
-    BlogArticle,
-    // Spinner,
+    PaginatedContent,
+    BlogArticle
   },
   data() {
     return {
-      articles: [
+      blogArticles: [
           {
             id: 1,
             title: 'Introduction to Vue.js',
-            subtitle: 'Learn the basics of Vue.js',
+            description: 'Learn the basics of Vue.js',
             date: '2023-01-01',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'John Doe',
@@ -103,7 +30,7 @@ export default {
           {
             id: 2,
             title: 'Advanced Vue.js Techniques',
-            subtitle: 'Deep dive into Vue.js features',
+            description: 'Deep dive into Vue.js features',
             date: '2023-01-02',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Jane Smith',
@@ -112,7 +39,7 @@ export default {
           {
             id: 3,
             title: 'Building Single Page Applications with Vue',
-            subtitle: 'How to build SPAs with Vue',
+            description: 'How to build SPAs with Vue',
             date: '2023-01-03',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Alice Johnson',
@@ -121,7 +48,7 @@ export default {
           {
             id: 4,
             title: 'State Management in Vue with Vuex',
-            subtitle: 'Manage state in your Vue.js applications',
+            description: 'Manage state in your Vue.js applications',
             date: '2023-01-04',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Bob Brown',
@@ -130,7 +57,7 @@ export default {
           {
             id: 5,
             title: 'Testing Vue.js Applications',
-            subtitle: 'Learn how to test your Vue.js apps',
+            description: 'Learn how to test your Vue.js apps',
             date: '2023-01-05',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Charlie Davis',
@@ -139,7 +66,7 @@ export default {
           {
             id: 6,
             title: 'Deploying Vue.js Applications',
-            subtitle: 'How to deploy your Vue.js applications',
+            description: 'How to deploy your Vue.js applications',
             date: '2023-01-06',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Dana Evans',
@@ -148,7 +75,7 @@ export default {
           {
             id: 7,
             title: 'Vue Router for Navigation',
-            subtitle: 'Implement navigation in Vue apps',
+            description: 'Implement navigation in Vue apps',
             date: '2023-01-07',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Evan Ford',
@@ -157,7 +84,7 @@ export default {
           {
             id: 8,
             title: 'Building Forms in Vue',
-            subtitle: 'Learn to build and validate forms',
+            description: 'Learn to build and validate forms',
             date: '2023-01-08',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Fiona Green',
@@ -166,7 +93,7 @@ export default {
           {
             id: 9,
             title: 'Vue.js Directives',
-            subtitle: 'Understanding Vue.js directives',
+            description: 'Understanding Vue.js directives',
             date: '2023-01-09',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'George Harris',
@@ -175,7 +102,7 @@ export default {
           {
             id: 10,
             title: 'Server-Side Rendering with Vue',
-            subtitle: 'SSR in Vue.js applications',
+            description: 'SSR in Vue.js applications',
             date: '2023-01-10',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Hannah Irving',
@@ -184,7 +111,7 @@ export default {
           {
             id: 11,
             title: 'Animations in Vue.js',
-            subtitle: 'Add animations to your Vue apps',
+            description: 'Add animations to your Vue apps',
             date: '2023-01-11',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Ivy Jackson',
@@ -193,7 +120,7 @@ export default {
           {
             id: 12,
             title: 'Vue.js and TypeScript',
-            subtitle: 'Use TypeScript in your Vue apps',
+            description: 'Use TypeScript in your Vue apps',
             date: '2023-01-12',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Jack Kelly',
@@ -202,7 +129,7 @@ export default {
           {
             id: 13,
             title: 'Building Component Libraries with Vue',
-            subtitle: 'Create reusable components',
+            description: 'Create reusable components',
             date: '2023-01-13',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Karen Lewis',
@@ -211,7 +138,7 @@ export default {
           {
             id: 14,
             title: 'Vue.js Performance Optimization',
-            subtitle: 'Optimize your Vue.js applications',
+            description: 'Optimize your Vue.js applications',
             date: '2023-01-14',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Leo Martin',
@@ -220,7 +147,7 @@ export default {
           {
             id: 15,
             title: 'Internationalization in Vue.js',
-            subtitle: 'i18n in Vue.js applications',
+            description: 'i18n in Vue.js applications',
             date: '2023-01-15',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Mia Nelson',
@@ -229,7 +156,7 @@ export default {
           {
             id: 16,
             title: 'Integrating Vue.js with Backend Services',
-            subtitle: 'Connect Vue.js with APIs',
+            description: 'Connect Vue.js with APIs',
             date: '2023-01-16',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Noah Owens',
@@ -238,7 +165,7 @@ export default {
           {
             id: 17,
             title: 'Building Mobile Apps with Vue.js',
-            subtitle: 'Use Vue.js to build mobile applications',
+            description: 'Use Vue.js to build mobile applications',
             date: '2023-01-17',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Olivia Parker',
@@ -247,7 +174,7 @@ export default {
           {
             id: 18,
             title: 'Understanding Vue.js Reactivity',
-            subtitle: 'Deep dive into Vue.js reactivity',
+            description: 'Deep dive into Vue.js reactivity',
             date: '2023-01-18',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Peter Quinn',
@@ -256,7 +183,7 @@ export default {
           {
             id: 19,
             title: 'Vue.js Ecosystem Overview',
-            subtitle: 'Explore the Vue.js ecosystem',
+            description: 'Explore the Vue.js ecosystem',
             date: '2023-01-19',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Quincy Robinson',
@@ -265,127 +192,17 @@ export default {
           {
             id: 20,
             title: 'Vue.js Best Practices',
-            subtitle: 'Follow best practices in Vue.js',
+            description: 'Follow best practices in Vue.js',
             date: '2023-01-20',
             imageUrl: 'https://via.placeholder.com/150',
             author: 'Ruby Sanders',
             tags: ['Vue', 'Best Practices', 'JavaScript'],
           },
-        ],
-      currentPage: 1,
-      articlesPerPage: 10,
-      tagsSelected: [],
-      tagColors: {},
-      searchQuery: '',
-      loading: false, // Loading state
+        ]
     };
   },
-  computed: {
-    allTags() {
-      let allTags = [];
-      if (this.articles.length > 0) {
-        this.articles.forEach(article => {
-          allTags = allTags.concat(article.tags);
-        });
-      }
-      return [...new Set(allTags)];
-    },
-    totalPages() {
-      return Math.ceil(this.filteredArticles.length / this.articlesPerPage);
-    },
-    filteredArticles() {
-      let filtered = this.articles;
-      if (this.tagsSelected.length > 0) {
-        filtered = filtered.filter(article =>
-          article.tags.some(tag => this.tagsSelected.includes(tag))
-        );
-      }
-      if (this.searchQuery) {
-        filtered = filtered.filter(article =>
-          article.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-          article.subtitle.toLowerCase().includes(this.searchQuery.toLowerCase())
-        );
-      }
-      return filtered;
-    },
-    paginatedArticles() {
-      const start = (this.currentPage - 1) * this.articlesPerPage;
-      const end = start + this.articlesPerPage;
-      return this.filteredArticles.slice(start, end);
-    }
-  },
-  methods: {
-    getRandomColor() {
-      const colors  = ['red', 'green', 'orange', 'yellow', 'violet', 'blue', 'lime', 'emerald', 'teal', 'sky', 'purple', 'fuchsia', 'pink'];
-      const numbers = ['400', '500', '600', '700', '800', '900'];
-      const colorIndex = Math.floor(Math.random() * colors.length);
-      const numberIndex = Math.floor(Math.random() * numbers.length);
-      return `${colors[colorIndex]}-${numbers[numberIndex]}`;
-    },
-    getTagClass(tag) {
-      if (!this.tagColors[tag]) {
-        this.tagColors[tag] = this.getRandomColor();
-      }
-      return ` border-${this.tagColors[tag]} ${this.tagsSelected.includes(tag) ? ` bg-${this.tagColors[tag]} text-bold ` : ''}`;
-    },
-    clickTag(tag) {
-      if (this.tagsSelected.includes(tag)) {
-        this.tagsSelected = this.tagsSelected.filter(tagName => tagName !== tag);
-      } else {
-        this.tagsSelected.push(tag);
-      }
-    },
-    nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage += 1;
-      }
-    },
-    prevPage() {
-      if (this.currentPage > 1) {
-        this.currentPage -= 1;
-      }
-    },
-    goToPage(page) {
-      this.currentPage = page;
-    },
-    async fetchArticles() {
-      try {
-        // Simulate API call
-        this.articles = await new Promise(resolve => setTimeout(() => resolve([
-          // Add your articles here
-        ]), 1000));
-      } catch (error) {
-        console.error('Error fetching articles:', error);
-      } finally {
-        this.loading = false;
-      }
-    }
-  },
-  mounted() {
-    // this.fetchArticles();
-    this.allTags.forEach(tag => {
-      this.tagColors[tag] = this.getRandomColor();
-    });
+  created() {
+    // Carga tus artículos desde una API o similar
   }
 };
 </script>
-
-<style scoped>
-.button-active {
-  background-color: #1E40AF;
-  color: #FFF;
-}
-.button-inactive {
-  background-color: #3f3f3f;
-  color: #1F2937;
-}
-.invisible {
-  visibility: hidden;
-}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
-</style>

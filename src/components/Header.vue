@@ -71,7 +71,10 @@ export default {
 }
 
 /* Estilos para pantallas pequeñas */
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
+    .md\:mt-28 {
+        margin-top: 7rem /* 112px */;
+    }
   #header-nav {
     top: auto;
     bottom: 0;

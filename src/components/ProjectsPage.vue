@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="w-full px-5 py-10 flex items-center justify-center md:mt-20 mt-0">
       <Projects />
     </div>
   </template>
